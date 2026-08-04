@@ -503,8 +503,6 @@ let checkoutStep = 'cart'; // cart | delivery | address
 let deliveryType = null; // 'domicilio' | 'pickup'
 let address = '';
 let colonia = 'Zakia';
-let condominio = '';
-let numInterior = '';
 
 /* ===== CATEGORY NAV (atajos + scrollspy) ===== */
 const catNav = document.getElementById('catNav');
@@ -708,21 +706,16 @@ function renderDrawer(){
         <div class="delivery-opt ${deliveryType==='pickup'?'selected':''}" onclick="setDelivery('pickup')">🏠<br>Pickup</div>
       </div>
       ${deliveryType==='domicilio' ? `
-        <div class="cp-label" style="margin-top:18px;">Tu dirección</div>
-        <textarea class="addr-input" id="addrInput" placeholder="Calle, número, referencias..." oninput="address=this.value; renderDrawerFootOnly();">${address}</textarea>
-
-        <div class="cp-label">Colonia</div>
+              <div class="cp-label">Colonia</div>
         <select class="addr-select" id="coloniaInput" onchange="colonia=this.value; renderDrawerFootOnly();">
           ${['Zakia','Zíbata','El Refugio','La Pradera','Otro'].map(c =>
             `<option value="${c}" ${colonia===c?'selected':''}>${c}</option>`
           ).join('')}
         </select>
+        
+        <div class="cp-label" style="margin-top:18px;">Tu dirección</div>
+        <textarea class="addr-input" id="addrInput" placeholder="Calle, número, referencias..." oninput="address=this.value; renderDrawerFootOnly();">${address}</textarea>
 
-        <div class="cp-label">Condominio o edificio <span style="text-transform:none; font-weight:600;">(opcional)</span></div>
-        <input class="addr-select" id="condoInput" type="text" placeholder="Ej. Condominio Las Palmas" value="${condominio}" oninput="condominio=this.value">
-
-        <div class="cp-label">Número interior <span style="text-transform:none; font-weight:600;">(opcional)</span></div>
-        <input class="addr-select" id="numIntInput" type="text" placeholder="Ej. Depto 4B" value="${numInterior}" oninput="numInterior=this.value">
       ` : ''}
     `;
     const canConfirm = deliveryType==='pickup' || (deliveryType==='domicilio' && address.trim().length>4);
