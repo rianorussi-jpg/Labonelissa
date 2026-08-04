@@ -752,8 +752,6 @@ function sendToWhatsapp(){
   msg += `Total: $${cartTotal()}%0A%0A`;
   if(deliveryType === 'domicilio'){
     msg += `Entrega: a domicilio%0ADirección: ${encodeURIComponent(address)}%0AColonia: ${encodeURIComponent(colonia)}`;
-    if(condominio.trim()) msg += `%0ACondominio/edificio: ${encodeURIComponent(condominio)}`;
-    if(numInterior.trim()) msg += `%0ANúmero interior: ${encodeURIComponent(numInterior)}`;
   } else {
     msg += `Entrega: pickup en tienda`;
   }
