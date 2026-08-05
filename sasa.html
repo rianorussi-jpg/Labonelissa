@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Page Editable</title>
+
+<style>
+
+/* ==========================================================
+   VARIABLES (Fácil de editar)
+========================================================== */
+
+:root{
+    --color-principal:#2563eb;
+    --color-secundario:#4f46e5;
+    --color-fondo:#f5f7fb;
+    --color-texto:#333;
+    --color-blanco:#ffffff;
+    --color-gris:#666;
+
+    --radio:12px;
+    --ancho-max:1200px;
+}
+
+/* ==========================================================
+   ESTILOS GENERALES
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:var(--color-fondo);
+    color:var(--color-texto);
+    line-height:1.6;
+}
+
+.container{
+    width:90%;
+    max-width:var(--ancho-max);
+    margin:auto;
+}
+
+section{
+    padding:80px 0;
+}
+
+h1,h2,h3{
+    margin-bottom:15px;
+}
+
+p{
+    color:var(--color-gris);
+}
+
+.btn{
+    display:inline-block;
+    background:var(--color-principal);
+    color:white;
+    text-decoration:none;
+    padding:15px 35px;
+    border-radius:50px;
+    transition:.3s;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+header{
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+}
+
+.header-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:70px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+nav a{
+    text-decoration:none;
+    color:#333;
+    margin-left:20px;
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero{
+    background:linear-gradient(135deg,var(--color-principal),var(--color-secundario));
+    color:white;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+}
+
+.hero h1{
+    font-size:48px;
+}
+
+.hero p{
+    color:white;
+    margin:20px 0;
+}
+
+.hero img{
+    width:100%;
+    border-radius:15px;
+}
+
+/* ==========================================================
+   BENEFICIOS
+========================================================== */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:var(--radio);
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:var(--color-principal);
+}
+
+/* ==========================================================
+   NOSOTROS
+========================================================== */
+
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+}
+
+.about img{
+    width:100%;
+    border-radius:12px;
+}
+
+/* ==========================================================
+   PLANES
+========================================================== */
+
+.pricing{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.plan{
+    background:white;
+    border-radius:12px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.plan.featured{
+    background:var(--color-principal);
+    color:white;
+    transform:scale(1.05);
+}
+
+.plan.featured p,
+.plan.featured li{
+    color:white;
+}
+
+.price{
+    font-size:40px;
+    margin:20px 0;
+}
+
+.plan ul{
+    list-style:none;
+    margin:20px 0;
+}
+
+.plan li{
+    margin:10px 0;
+}
+
+/* ==========================================================
+   TESTIMONIOS
+========================================================== */
+
+.testimonials{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.testimonial{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+}
+
+/* ==========================================================
+   FORMULARIO
+========================================================== */
+
+.contact{
+    background:white;
+}
+
+.form{
+    max-width:700px;
+    margin:auto;
+}
+
+.input-group{
+    margin-bottom:20px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+
+textarea{
+    min-height:150px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    background:var(--color-principal);
+    color:white;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+footer{
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:40px 0;
+}
+
+footer p{
+    color:#ddd;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:800px){
+
+.hero-grid,
+.about{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+header{
+    position:relative;
+}
+
+.header-content{
+    flex-direction:column;
+    height:auto;
+    padding:20px;
+}
+
+nav{
+    margin-top:15px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- ===================================================== -->
+<!-- HEADER -->
+<!-- ===================================================== -->
+
+<header>
+
+<div class="container header-content">
+
+<div class="logo">
+Mi Empresa
+</div>
+
+<nav>
+<a href="#">Inicio</a>
+<a href="#">Servicios</a>
+<a href="#">Planes</a>
+<a href="#">Contacto</a>
+</nav>
+
+</div>
+
+</header>
+
+<!-- ===================================================== -->
+<!-- HERO -->
+<!-- ===================================================== -->
+
+<section class="hero">
+
+<div class="container hero-grid">
+
+<div>
+
+<h1>Haz crecer tu negocio</h1>
+
+<p>
+Una landing page profesional para convertir visitantes
+en clientes.
+</p>
+
+<a href="#" class="btn">
+Solicitar información
+</a>
+
+</div>
+
+<div>
+
+<img src="https://placehold.co/600x450" alt="Imagen principal">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- BENEFICIOS -->
+<!-- ===================================================== -->
+
+<section>
+
+<div class="container">
+
+<h2 style="text-align:center;margin-bottom:40px;">
+¿Por qué elegirnos?
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>⚡ Rápido</h3>
+<p>Implementación rápida y sencilla.</p>
+</div>
+
+<div class="card">
+<h3>📱 Responsive</h3>
+<p>Compatible con cualquier dispositivo.</p>
+</div>
+
+<div class="card">
+<h3>🔒 Seguro</h3>
+<p>Tecnología moderna y estable.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SOBRE NOSOTROS -->
+<!-- ===================================================== -->
+
+<section style="background:white;">
+
+<div class="container about">
+
+<div>
+
+<img src="https://placehold.co/500x350" alt="Nosotros">
+
+</div>
+
+<div>
+
+<h2>Sobre Nosotros</h2>
+
+<p>
+Somos especialistas en ayudar a empresas a mejorar
+su presencia digital mediante soluciones simples,
+modernas y efectivas.
+</p>
+
+<br>
+
+<p>
+Nuestro objetivo es aumentar tus conversiones y hacer
+que tu negocio destaque.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PLANES -->
+<!-- ===================================================== -->
+
+<section>
+
+<div class="container">
+
+<h2 style="text-align:center;margin-bottom:40px;">
+Nuestros Planes
+</h2>
+
+<div class="pricing">
+
+<div class="plan">
+
+<h3>Básico</h3>
+
+<div class="price">
+$29
+</div>
+
+<ul>
+<li>✔ Landing Page</li>
+<li>✔ Hosting</li>
+<li>✔ Soporte</li>
+</ul>
+
+<a href="#" class="btn">
+Elegir
+</a>
+
+</div>
+
+<div class="plan featured">
+
+<h3>Profesional</h3>
+
+<div class="price">
+$59
+</div>
+
+<ul>
+<li>✔ Todo lo anterior</li>
+<li>✔ Dominio</li>
+<li>✔ SEO</li>
+<li>✔ Analíticas</li>
+</ul>
+
+<a href="#" class="btn" style="background:white;color:#2563eb;">
+Elegir
+</a>
+
+</div>
+
+<div class="plan">
+
+<h3>Empresarial</h3>
+
+<div class="price">
+$99
+</div>
+
+<ul>
+<li>✔ Todo incluido</li>
+<li>✔ Integraciones</li>
+<li>✔ Prioridad</li>
+</ul>
+
+<a href="#" class="btn">
+Elegir
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- TESTIMONIOS -->
+<!-- ===================================================== -->
+
+<section style="background:white;">
+
+<div class="container">
+
+<h2 style="text-align:center;margin-bottom:40px;">
+Lo que dicen nuestros clientes
+</h2>
+
+<div class="testimonials">
+
+<div class="testimonial">
+<p>
+"Excelente servicio, aumentamos nuestras ventas en pocas semanas."
+</p>
+
+<br>
+
+<strong>Juan Pérez</strong>
+</div>
+
+<div class="testimonial">
+<p>
+"El diseño quedó increíble y muy profesional."
+</p>
+
+<br>
+
+<strong>Ana García</strong>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- FORMULARIO -->
+<!-- ===================================================== -->
+
+<section class="contact">
+
+<div class="container">
+
+<h2 style="text-align:center;">
+Contáctanos
+</h2>
+
+<p style="text-align:center;margin-bottom:40px;">
+Déjanos tus datos y nos comunicaremos contigo.
+</p>
+
+<form class="form">
+
+<div class="input-group">
+<input type="text" placeholder="Nombre">
+</div>
+
+<div class="input-group">
+<input type="email" placeholder="Correo electrónico">
+</div>
+
+<div class="input-group">
+<input type="tel" placeholder="Teléfono">
+</div>
+
+<div class="input-group">
+<textarea placeholder="Escribe tu mensaje"></textarea>
+</div>
+
+<button type="submit">
+Enviar Mensaje
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================== -->
+
+<footer>
+
+<div class="container">
+
+<h3>Mi Empresa</h3>
+
+<p>
+© 2026 Todos los derechos reservados.
+</p>
+
+</div>
+
+</footer>
+
+</body>
+</html>
