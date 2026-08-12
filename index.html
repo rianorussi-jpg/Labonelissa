@@ -608,15 +608,15 @@
       <div class="promo-badge"></div>
       <div class="promo-eyebrow">🍗 Promo todos los días</div>
       <div class="promo-title">1 Kilo de Alitas $349</div>
-      <div class="promo-text">Escoge hasta 4 salsas y disfrútalas bañadas o con salsa aparte.</div>
+      <div class="promo-text">Escoge hasta 4 salsas y disfrútalas cualquier dia de la semana.</div>
       <button class="promo-btn" onclick="openPromoConfigurator('promo-alitas-1kg')">Agregar promo</button>
     </div>
 
     <div class="promo-card dark">
       <div class="promo-badge"></div>
       <div class="promo-eyebrow">🛵 Entregamos hasta tu puerta</div>
-      <div class="promo-title">¿Antojo de Boneless?</div>
-      <div class="promo-text">Envíos en Zakia, Zíbata, El Refugio y La Pradera.</div>
+      <div class="promo-title">Envios Gratis</div>
+      <div class="promo-text">Entregamos en Zakia, Zíbata, El Refugio y La Pradera.</div>
       <button class="promo-btn" onclick="scrollToCat('boneless')">Ver menú</button>
     </div>
   </div>
@@ -704,12 +704,12 @@ const categorias = [
 ];
 
 const productos = [
-  { id:'bowl', cat:'boneless', nombre:'Bowlnelissa', desc:'Bowl con base de 200g de Papitas, 250g de Boneless, con tu salsa favorita. .', precio:185, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/3.png' },
+  { id:'bowl', cat:'boneless', nombre:'Bowlnelissa', desc:'Bowl con base de 200g de Papitas, 250g de Boneless, con tus salsas favoritas.', precio:185, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/3.png' },
   { id:'250g', cat:'boneless', nombre:'Boneless + Papitas Personal', desc:'250g de Boneless acompañados con 125g de papitas, con tu salsa favorita.', precio:159, personalizable:true, maxSalsas:1, img:'/images/1.png' },
-  { id:'500g', cat:'boneless', nombre:'Boneless + Papitas para Compartir', desc:'500g de Boneless acompañados con 250g de papitas, con tu salsa favorita.', precio:299, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/2.png' },
-  { id:'alitas-1kg', cat:'alitas', nombre:'Alitas 1 kg', desc:'1 kg de alitas. Escoge hasta 4 salsas.', precio:349, precioAntes:399, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:4, requiereModo:false, img:'/images/13.png' },
+  { id:'500g', cat:'boneless', nombre:'Boneless + Papitas para Compartir', desc:'500g de Boneless acompañados con 250g de papitas, con tus salsas favoritas.', precio:299, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/2.png' },
+  { id:'alitas-1kg', cat:'alitas', nombre:'Alitas 1 kg', desc:'1 kg de alitas. Escoge de 1 a 4 salsas.', precio:349, precioAntes:399, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:4, requiereModo:false, img:'/images/13.png' },
   { id:'box', cat:'combos', nombre:'Bonelissa Box', desc:'Medio kilo de boneless, papitas y 6 deditos de queso.', precio:349, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/4.png' },
-  { id:'burger', cat:'otros', nombre:'Hamburguesa Bonelissa', desc:'Hamburguesa de la casa.', precio:119, personalizable:true, img:'/images/5.png' },
+  { id:'burger', cat:'otros', nombre:'Hamburguesa Bonelissa', desc:'Hamburguesa de la casa con boneless bañados en tu salsa favorita.', precio:119, personalizable:true, img:'/images/5.png' },
   { id:'papas-extra', cat:'otros', nombre:'Papitas extra', desc:'Orden de papas natural.', precio:55, personalizable:false, img:'/images/6.png' },
   { id:'deditos', cat:'otros', nombre:'6 Deditos de queso', desc:'Orden de deditos de queso. Escoge 1 Salsa para Acompañar.', precio:55, personalizable:true, img:'/images/12.png' },
   { id:'papas-bonelissa', cat:'otros', nombre:'Papitas Bonelissa', desc:'Papas preparadas estilo Bonelissa.', precio:85, personalizable:true, img:'/images/7.png' },
@@ -814,7 +814,7 @@ function itemHTML(p){
             </div>
           `).join('')}
         </div>
-        ${maxSalsas > 1 ? `<div class="multi-count">Tienes ${selected.length} salsa${selected.length===1?'':'s'} seleccionada${selected.length===1?'':'s'}. Las adicionales son opcionales.</div>` : ''}
+        ${maxSalsas > 1 ? `<div class="multi-count">Tienes ${selected.length} salsa${selected.length===1?'':'s'} seleccionada${selected.length===1?'':'s'}. </div>` : ''}
 
         ${p.requiereModo ? `
           <div class="cp-label">¿Bañados o aparte?</div>
