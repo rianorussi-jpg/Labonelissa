@@ -111,7 +111,11 @@
     color:var(--red-dark);
     margin:26px 0 12px;
     text-transform:uppercase;
-    scroll-margin-top:118px;
+  }
+
+  /* Al navegar por categorías, deja el título justo debajo del header sticky */
+  [id^="sec-"]{
+    scroll-margin-top:150px;
   }
   .cat-title:first-of-type{margin-top:4px;}
 
@@ -734,7 +738,21 @@ catNav.innerHTML = categorias.map(c =>
 ).join('');
 
 function scrollToCat(id){
-  document.getElementById('sec-'+id).scrollIntoView({behavior:'smooth'});
+  const target = document.getElementById('sec-'+id);
+  const sticky = document.querySelector('.top-fixed');
+  if(!target) return;
+
+  // Calculamos la altura REAL del bloque sticky para no pasarnos del título.
+  const stickyHeight = sticky ? sticky.getBoundingClientRect().height : 0;
+  const extraGap = 10;
+  const y = target.getBoundingClientRect().top + window.pageYOffset - stickyHeight - extraGap;
+
+  window.scrollTo({
+    top: Math.max(0, y),
+    behavior: 'smooth'
+  });
+
+  setActiveCat(id);
 }
 function setActiveCat(id){
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
@@ -755,6 +773,9 @@ function renderMenu(){
 
   try{
     if(scrollObserver) scrollObserver.disconnect();
+    const sticky = document.querySelector('.top-fixed');
+    const stickyHeight = sticky ? Math.ceil(sticky.getBoundingClientRect().height) : 120;
+
     scrollObserver = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
@@ -762,7 +783,7 @@ function renderMenu(){
           setActiveCat(id);
         }
       });
-    }, { rootMargin:'-120px 0px -70% 0px', threshold:0 });
+    }, { rootMargin:`-${stickyHeight + 10}px 0px -70% 0px`, threshold:0 });
     categorias.forEach(c=>{
       const el = document.getElementById('sec-'+c.id);
       if(el) scrollObserver.observe(el);
