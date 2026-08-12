@@ -412,6 +412,145 @@
     color:var(--gray);
     padding:26px 5vw 110px;
   }
+
+  /* ===== PROMOS ===== */
+  .promo-section{
+    max-width:820px;
+    margin:18px auto 4px;
+    padding:0 5vw;
+  }
+
+  .promo-slider{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    padding-bottom:4px;
+  }
+
+  .promo-slider::-webkit-scrollbar{display:none;}
+
+  .promo-card{
+    min-width:82%;
+    scroll-snap-align:start;
+    border-radius:16px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:0 8px 24px rgba(27,20,16,.08);
+  }
+
+  .promo-card.red{background:var(--red); color:#fff;}
+  .promo-card.yellow{background:var(--yellow); color:var(--red-dark);}
+  .promo-card.dark{background:var(--ink); color:#fff;}
+
+  .promo-eyebrow{
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin-bottom:7px;
+    opacity:.85;
+  }
+
+  .promo-title{
+    font-family:'Archivo Black',sans-serif;
+    font-size:24px;
+    line-height:1.05;
+    max-width:430px;
+  }
+
+  .promo-text{
+    font-size:13px;
+    line-height:1.45;
+    margin-top:7px;
+    max-width:430px;
+    opacity:.9;
+  }
+
+  .promo-btn{
+    margin-top:14px;
+    align-self:flex-start;
+    border:none;
+    border-radius:8px;
+    padding:10px 15px;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:900;
+    cursor:pointer;
+  }
+
+  .promo-card.red .promo-btn{background:var(--yellow); color:var(--red-dark);}
+  .promo-card.yellow .promo-btn{background:var(--red); color:#fff;}
+  .promo-card.dark .promo-btn{background:#fff; color:var(--ink);}
+
+  .promo-badge{
+    position:absolute;
+    right:-20px;
+    top:-22px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+  }
+
+  @media(min-width:700px){
+    .promo-card{min-width:calc(50% - 6px);}
+  }
+
+
+  .promo-modal{
+    position:fixed; inset:0; z-index:95;
+    background:rgba(27,20,16,.6);
+    display:none; align-items:flex-end; justify-content:center;
+    padding:18px;
+  }
+  .promo-modal.open{display:flex;}
+  .promo-modal-card{
+    width:min(100%,560px);
+    background:var(--cream);
+    border-radius:18px;
+    padding:20px;
+    position:relative;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .promo-modal-close{
+    position:absolute; right:14px; top:14px;
+    border:none; background:none; font-size:20px;
+    cursor:pointer; color:var(--gray);
+  }
+  .promo-modal-title{
+    font-family:'Archivo Black',sans-serif;
+    font-size:18px; padding-right:36px; margin-bottom:14px;
+  }
+  .multi-panel{
+    display:none; margin:14px 0 0 72px;
+    background:#fff; border:1px solid var(--line);
+    border-radius:10px; padding:14px 16px 16px;
+  }
+  .multi-panel.open{display:block;}
+  .multi-count{font-size:12px;color:var(--gray);margin-top:8px;font-weight:700;}
+  @media(max-width:480px){.multi-panel{margin-left:0;}}
+
+
+  .price-stack{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:3px;
+  }
+  .old-price{
+    font-size:11px;
+    font-weight:800;
+    color:var(--gray);
+    text-decoration:line-through;
+  }
+
 </style>
 </head>
 <body>
@@ -419,10 +558,55 @@
 <div class="top-fixed">
   <header>
     <div class="brand">LA BONELISSA<small>Boneless · Papas · A domicilio</small></div>
-    <button class="call-btn" onclick="scrollToCat('boneless')">Ver menú</button>
+    <button class="call-btn" onclick="contactWhatsapp()">Contáctanos</button>
   </header>
   <div class="strip">Todos los <b>Bowlnelissa</b> llevan 2 deditos de queso <b>GRATIS</b></div>
   <div class="cat-nav" id="catNav"></div>
+</div>
+
+
+<section class="promo-section">
+  <div class="promo-slider">
+    <div class="promo-card red">
+      <div class="promo-badge"></div>
+      <div class="promo-eyebrow">🔥 Promo de miércoles</div>
+      <div class="promo-title">500g de Boneless + Papitas $259</div>
+      <div class="promo-text">Miércoles de antojo grande: más boneless, más papitas y mejor precio. Válida solo los miércoles.</div>
+      <button class="promo-btn" onclick="openPromoConfigurator('promo-boneless-500')">Agregar promo</button>
+    </div>
+
+    <div class="promo-card yellow">
+      <div class="promo-badge"></div>
+      <div class="promo-eyebrow">🍗 Promo todos los días</div>
+      <div class="promo-title">1 Kilo de Alitas $349</div>
+      <div class="promo-text">Escoge hasta 4 salsas y disfrútalas bañadas o con salsa aparte.</div>
+      <button class="promo-btn" onclick="openPromoConfigurator('promo-alitas-1kg')">Agregar promo</button>
+    </div>
+
+    <div class="promo-card dark">
+      <div class="promo-badge"></div>
+      <div class="promo-eyebrow">🛵 Entregamos hasta tu puerta</div>
+      <div class="promo-title">¿Antojo de Boneless?</div>
+      <div class="promo-text">Envíos en Zakia, Zíbata, El Refugio y La Pradera.</div>
+      <button class="promo-btn" onclick="scrollToCat('boneless')">Ver menú</button>
+    </div>
+  </div>
+</section>
+
+<div class="promo-modal" id="promoModal" onclick="if(event.target===this) closePromoConfigurator()">
+  <div class="promo-modal-card">
+    <button class="promo-modal-close" onclick="closePromoConfigurator()">✕</button>
+    <div class="promo-modal-title" id="promoModalTitle">Configura tu promo</div>
+    <div class="cp-label" id="promoSauceLabel">Salsa</div>
+    <div class="chip-row" id="promoSauces"></div>
+    <div class="multi-count" id="promoSauceCount"></div>
+    <div class="cp-label">¿Bañados o aparte?</div>
+    <div class="mode-row" id="promoModes">
+      <div class="mode-btn" data-mode="Bañados" onclick="setPromoMode('Bañados')">Bañados</div>
+      <div class="mode-btn" data-mode="Aparte" onclick="setPromoMode('Aparte')">Salsa aparte</div>
+    </div>
+    <button class="cp-confirm" id="promoConfirmBtn" onclick="confirmPromoAdd()">Agregar al pedido</button>
+  </div>
 </div>
 
 <main id="menuMain"></main>
@@ -467,25 +651,27 @@ function imgFallback(el){
 
 /* ===== DATA ===== */
 const salsas = [
+  { nombre:'Lemon Pepper', color:'#D8C56A' },
   { nombre:'BBQ', color:'#7A431F' },
+  { nombre:'Bufalo Hot', color:'#C81620' },
   { nombre:'Mango Habanero', color:'#F2A63A' },
-  { nombre:'Buffalo', color:'#C81620' },
-  { nombre:'Al Pastor', color:'#E0521C' },
-  { nombre:'Tamarindo picante', color:'#8B3A2A' }
+  { nombre:'Habanero', color:'#E0521C' }
 ];
 
 const categorias = [
   { id:'boneless', nombre:'Boneless' },
+  { id:'alitas', nombre:'Alitas' },
   { id:'combos', nombre:'Combos' },
   { id:'otros', nombre:'Otros' },
   { id:'bebidas', nombre:'Bebidas' }
 ];
 
 const productos = [
-  { id:'bowl', cat:'boneless', nombre:'Bowlnelissa', desc:'Bowl con base de 200g de Papitas, 250g de Boneless, con tu salsa favorita. .', precio:185, personalizable:true, img:'/images/3.png' },
-  { id:'250g', cat:'boneless', nombre:'Orden 250g', desc:'250g de Boneless acompañados con 125g de papitas, con tu salsa favorita.', precio:159, personalizable:true, img:'/images/1.png' },
-  { id:'500g', cat:'boneless', nombre:'Orden 500g', desc:'500g de Boneless acompañados con 250g de papitas, con tu salsa favorita.', precio:299, personalizable:true, img:'/images/2.png' },
-  { id:'box', cat:'combos', nombre:'Bonelissa Box', desc:'Medio kilo de boneless, papitas y 6 deditos de queso.', precio:349, personalizable:true, img:'/images/4.png' },
+  { id:'bowl', cat:'boneless', nombre:'Bowlnelissa', desc:'Bowl con base de 200g de Papitas, 250g de Boneless, con tu salsa favorita. .', precio:185, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/3.png' },
+  { id:'250g', cat:'boneless', nombre:'Boneless + Papitas Personal', desc:'250g de Boneless acompañados con 125g de papitas, con tu salsa favorita.', precio:159, personalizable:true, maxSalsas:1, img:'/images/1.png' },
+  { id:'500g', cat:'boneless', nombre:'Boneless + Papitas para Compartir', desc:'500g de Boneless acompañados con 250g de papitas, con tu salsa favorita.', precio:299, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/2.png' },
+  { id:'alitas-1kg', cat:'alitas', nombre:'Alitas 1 kg', desc:'1 kg de alitas. Escoge hasta 4 salsas.', precio:349, precioAntes:399, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:4, requiereModo:false, img:'/images/13.png' },
+  { id:'box', cat:'combos', nombre:'Bonelissa Box', desc:'Medio kilo de boneless, papitas y 6 deditos de queso.', precio:349, personalizable:false, multiSalsa:true, minSalsas:1, maxSalsas:2, requiereModo:true, img:'/images/4.png' },
   { id:'burger', cat:'otros', nombre:'Hamburguesa Bonelissa', desc:'Hamburguesa de la casa.', precio:119, personalizable:true, img:'/images/5.png' },
   { id:'papas-extra', cat:'otros', nombre:'Papitas extra', desc:'Orden de papas natural.', precio:55, personalizable:false, img:'/images/6.png' },
   { id:'deditos', cat:'otros', nombre:'6 Deditos de queso', desc:'Orden de deditos de queso. Escoge 1 Salsa para Acompañar.', precio:55, personalizable:true, img:'/images/12.png' },
@@ -549,10 +735,62 @@ function renderMenu(){
   }
 }
 
+function priceHTML(p){
+  if(p.precioAntes){
+    return `<div class="price-stack"><span class="old-price">$${p.precioAntes}</span><span class="tag">$${p.precio}</span></div>`;
+  }
+  return `${priceHTML(p)}`;
+}
+
 function itemHTML(p){
   const isOpen = openItem === p.id;
   const d = draft[p.id] || { salsa:null, modo:null };
   const quickQty = cart[p.id] ? cart[p.id].qty : 0;
+
+  if(p.multiSalsa){
+    const dMulti = draft[p.id] || { salsas:[], modo:null };
+    const selected = Array.isArray(dMulti.salsas) ? dMulti.salsas : [];
+    const panelOpen = openItem === p.id;
+    const minSalsas = p.minSalsas || 1;
+    const maxSalsas = p.maxSalsas || 1;
+    const readyMulti = selected.length >= minSalsas && (!p.requiereModo || !!dMulti.modo);
+
+    return `
+    <div class="item-row-wrap">
+      <div class="item">
+        <img class="thumb" src="${p.img}" alt="${p.nombre}" onerror="imgFallback(this)" onclick="openLightbox('${p.img}')">
+        <div class="item-body" onclick="toggleMultiItem('${p.id}')">
+          <div class="item-name">${p.nombre}</div>
+          <div class="item-desc">${p.desc}</div>
+        </div>
+        <div class="item-right">
+          ${priceHTML(p)}
+          <button class="add-mini" onclick="toggleMultiItem('${p.id}')">${panelOpen ? 'Cerrar' : (maxSalsas > 1 ? 'Elegir salsas' : 'Elegir salsa')}</button>
+        </div>
+      </div>
+      <div class="multi-panel ${panelOpen ? 'open':''}">
+        <div class="cp-label">${maxSalsas > 1 ? `Escoge de ${minSalsas} a ${maxSalsas} salsas` : 'Escoge 1 salsa'}</div>
+        <div class="chip-row">
+          ${salsas.map(s => `
+            <div class="chip ${selected.includes(s.nombre)?'selected':''}" onclick="toggleMultiSalsa('${p.id}','${s.nombre}',${maxSalsas})">
+              <span class="dot" style="background:${s.color}"></span>${s.nombre}
+            </div>
+          `).join('')}
+        </div>
+        <div class="multi-count">${selected.length} de ${maxSalsas} seleccionadas</div>
+
+        ${p.requiereModo ? `
+          <div class="cp-label">¿Bañados o aparte?</div>
+          <div class="mode-row">
+            <div class="mode-btn ${dMulti.modo==='Bañados'?'selected':''}" onclick="setMultiMode('${p.id}','Bañados')">Bañados</div>
+            <div class="mode-btn ${dMulti.modo==='Aparte'?'selected':''}" onclick="setMultiMode('${p.id}','Aparte')">Salsa aparte</div>
+          </div>
+        ` : ''}
+
+        <button class="cp-confirm ${readyMulti ? 'ready':''}" onclick="confirmMultiAdd('${p.id}')">Agregar al pedido</button>
+      </div>
+    </div>`;
+  }
 
   if(!p.personalizable){
     return `
@@ -564,7 +802,7 @@ function itemHTML(p){
           ${p.desc ? `<div class="item-desc">${p.desc}</div>` : ''}
         </div>
         <div class="item-right">
-          <div class="tag">$${p.precio}</div>
+          ${priceHTML(p)}
           <button class="add-mini ${quickQty>0?'qty':''}" onclick="quickAdd('${p.id}')">${quickQty>0 ? quickQty+' agregado' : '+ Agregar'}</button>
         </div>
       </div>
@@ -580,7 +818,7 @@ function itemHTML(p){
         <div class="item-desc">${p.desc}</div>
       </div>
       <div class="item-right">
-        <div class="tag">$${p.precio}</div>
+        ${priceHTML(p)}
         <button class="add-mini" onclick="toggleItem('${p.id}')">${isOpen ? 'Cerrar' : 'Elegir salsa'}</button>
       </div>
     </div>
@@ -601,6 +839,67 @@ function itemHTML(p){
       <button class="cp-confirm ${d.salsa && d.modo ? 'ready':''}" onclick="confirmAdd('${p.id}')">Agregar al pedido</button>
     </div>
   </div>`;
+}
+
+
+function toggleMultiItem(id){
+  openItem = openItem === id ? null : id;
+  if(!draft[id]) draft[id] = { salsas:[], modo:null };
+  if(!Array.isArray(draft[id].salsas)) draft[id].salsas = [];
+  renderMenu();
+}
+
+function toggleMultiSalsa(id, salsa, max){
+  if(!draft[id]) draft[id] = { salsas:[], modo:null };
+  if(!Array.isArray(draft[id].salsas)) draft[id].salsas = [];
+  const arr = draft[id].salsas;
+  const idx = arr.indexOf(salsa);
+
+  if(idx >= 0){
+    arr.splice(idx,1);
+  }else if(arr.length < max){
+    arr.push(salsa);
+  }
+
+  renderMenu();
+}
+
+function setMultiMode(id, modo){
+  if(!draft[id]) draft[id] = { salsas:[], modo:null };
+  draft[id].modo = modo;
+  renderMenu();
+}
+
+function confirmMultiAdd(id){
+  const p = productos.find(x=>x.id===id);
+  const d = draft[id] || { salsas:[], modo:null };
+  const selected = Array.isArray(d.salsas) ? d.salsas : [];
+  const minSalsas = p.minSalsas || 1;
+
+  if(selected.length < minSalsas) return;
+  if(p.requiereModo && !d.modo) return;
+
+  const modo = p.requiereModo ? d.modo : null;
+  const key = id+'|'+selected.slice().sort().join(',')+'|'+(modo || '');
+
+  if(cart[key]){
+    cart[key].qty++;
+  }else{
+    cart[key] = {
+      id,
+      nombre:p.nombre,
+      precio:p.precio,
+      salsa:selected.join(', '),
+      modo:modo,
+      qty:1,
+      img:p.img
+    };
+  }
+
+  draft[id] = { salsas:[], modo:null };
+  openItem = null;
+  renderMenu();
+  renderCartBar();
 }
 
 function toggleItem(id){
@@ -624,6 +923,137 @@ function confirmAdd(id){
   renderMenu();
   renderCartBar();
 }
+
+
+
+const promoDefs = {
+  'promo-boneless-500': {
+    nombre:'Promo Miércoles: 500g de Boneless + Papitas',
+    precio:259,
+    img:'/images/2.png',
+    soloMiercoles:true,
+    minSalsas:1,
+    maxSalsas:1,
+    requiereModo:true
+  },
+  'promo-alitas-1kg': {
+    nombre:'Promo 1 Kilo de Alitas',
+    precio:349,
+    img:'/images/13.png',
+    soloMiercoles:false,
+    minSalsas:1,
+    maxSalsas:4,
+    requiereModo:true
+  }
+};
+
+let activePromo = null;
+let promoDraft = { salsas:[], modo:null };
+
+function openPromoConfigurator(id){
+  const promo = promoDefs[id];
+  if(!promo) return;
+
+  if(promo.soloMiercoles && new Date().getDay() !== 3){
+    alert('Esta promoción es válida únicamente los miércoles.');
+    return;
+  }
+
+  activePromo = id;
+  promoDraft = { salsas:[], modo:null };
+  document.getElementById('promoModalTitle').textContent = promo.nombre;
+  renderPromoConfigurator();
+  document.getElementById('promoModal').classList.add('open');
+}
+function closePromoConfigurator(){
+  document.getElementById('promoModal').classList.remove('open');
+  activePromo = null;
+}
+function renderPromoConfigurator(){
+  const promo = promoDefs[activePromo];
+  const selected = Array.isArray(promoDraft.salsas) ? promoDraft.salsas : [];
+  const minSalsas = promo.minSalsas || 1;
+  const maxSalsas = promo.maxSalsas || 1;
+
+  document.getElementById('promoSauceLabel').textContent =
+    maxSalsas > 1 ? `Escoge de ${minSalsas} a ${maxSalsas} salsas` : 'Escoge 1 salsa';
+
+  document.getElementById('promoSauceCount').textContent =
+    maxSalsas > 1 ? `${selected.length} de ${maxSalsas} seleccionadas` : '';
+
+  document.getElementById('promoSauces').innerHTML = salsas.map(s => `
+    <div class="chip ${selected.includes(s.nombre)?'selected':''}" onclick="togglePromoSalsa('${s.nombre}')">
+      <span class="dot" style="background:${s.color}"></span>${s.nombre}
+    </div>
+  `).join('');
+
+  document.querySelectorAll('#promoModes .mode-btn').forEach(btn=>{
+    btn.classList.toggle('selected', btn.dataset.mode === promoDraft.modo);
+  });
+
+  const ready = selected.length >= minSalsas && (!promo.requiereModo || !!promoDraft.modo);
+  document.getElementById('promoConfirmBtn').classList.toggle('ready', ready);
+}
+
+function togglePromoSalsa(salsa){
+  const promo = promoDefs[activePromo];
+  const maxSalsas = promo.maxSalsas || 1;
+
+  if(!Array.isArray(promoDraft.salsas)) promoDraft.salsas = [];
+  const idx = promoDraft.salsas.indexOf(salsa);
+
+  if(idx >= 0){
+    promoDraft.salsas.splice(idx,1);
+  }else{
+    if(maxSalsas === 1){
+      promoDraft.salsas = [salsa];
+    }else if(promoDraft.salsas.length < maxSalsas){
+      promoDraft.salsas.push(salsa);
+    }
+  }
+
+  renderPromoConfigurator();
+}
+
+function setPromoMode(modo){
+  promoDraft.modo = modo;
+  renderPromoConfigurator();
+}
+function confirmPromoAdd(){
+  if(!activePromo) return;
+
+  const promo = promoDefs[activePromo];
+  const selected = Array.isArray(promoDraft.salsas) ? promoDraft.salsas : [];
+  const minSalsas = promo.minSalsas || 1;
+
+  if(selected.length < minSalsas) return;
+  if(promo.requiereModo && !promoDraft.modo) return;
+
+  const key = activePromo+'|'+selected.slice().sort().join(',')+'|'+(promoDraft.modo || '');
+
+  if(cart[key]){
+    cart[key].qty++;
+  }else{
+    cart[key] = {
+      id:activePromo,
+      nombre:promo.nombre,
+      precio:promo.precio,
+      salsa:selected.join(', '),
+      modo:promoDraft.modo,
+      qty:1,
+      img:promo.img
+    };
+  }
+
+  closePromoConfigurator();
+  renderMenu();
+  renderCartBar();
+}
+
+function contactWhatsapp(){
+  window.open('https://wa.me/5215542641224', '_blank');
+}
+
 function quickAdd(id){
   const p = productos.find(x=>x.id===id);
   if(cart[id]) cart[id].qty++;
@@ -680,7 +1110,7 @@ function renderDrawer(){
         <img src="${e.img}" alt="${e.nombre}" onerror="imgFallback(this)">
         <div class="cart-line-body">
           <div class="cart-line-name">${e.nombre}</div>
-          ${e.salsa ? `<div class="cart-line-extra">${e.salsa} · ${e.modo}</div>` : ''}
+          ${e.salsa ? `<div class="cart-line-extra">${e.salsa}${e.modo ? ` · ${e.modo}` : ''}</div>` : ''}
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('${e.key}',-1)">−</button>
             <div class="qty-val">${e.qty}</div>
