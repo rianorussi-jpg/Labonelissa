@@ -902,8 +902,9 @@ function itemHTML(p){
 
 function toggleMultiItem(id){
   openItem = openItem === id ? null : id;
-  if(!draft[id]) draft[id] = { salsas:[], modo:null };
+  if(!draft[id]) draft[id] = { salsas:[], modo:'Bañados' };
   if(!Array.isArray(draft[id].salsas)) draft[id].salsas = [];
+  if(!draft[id].modo) draft[id].modo = 'Bañados';
   renderMenu();
 }
 
@@ -954,7 +955,7 @@ function confirmMultiAdd(id){
     };
   }
 
-  draft[id] = { salsas:[], modo:null };
+  draft[id] = { salsas:[], modo:'Bañados' };
   openItem = null;
   renderMenu();
   renderCartBar();
@@ -962,7 +963,8 @@ function confirmMultiAdd(id){
 
 function toggleItem(id){
   openItem = openItem === id ? null : id;
-  if(!draft[id]) draft[id] = { salsa:null, modo:null };
+  if(!draft[id]) draft[id] = { salsa:null, modo:'Bañados' };
+  if(!draft[id].modo) draft[id].modo = 'Bañados';
   renderMenu();
 }
 function setDraft(id, field, val){
@@ -976,7 +978,7 @@ function confirmAdd(id){
   const key = id+'|'+d.salsa+'|'+d.modo;
   if(cart[key]) cart[key].qty++;
   else cart[key] = { id, nombre:p.nombre, precio:p.precio, salsa:d.salsa, modo:d.modo, qty:1, img:p.img };
-  draft[id] = { salsa:null, modo:null };
+  draft[id] = { salsa:null, modo:'Bañados' };
   openItem = null;
   renderMenu();
   renderCartBar();
@@ -1018,7 +1020,7 @@ function openPromoConfigurator(id){
   }
 
   activePromo = id;
-  promoDraft = { salsas:[], modo:null };
+  promoDraft = { salsas:[], modo:'Bañados' };
   document.getElementById('promoModalTitle').textContent = promo.nombre;
   renderPromoConfigurator();
   document.getElementById('promoModal').classList.add('open');
@@ -1206,6 +1208,11 @@ function renderDrawer(){
         <div class="cp-label" style="margin-top:18px;">Tu dirección</div>
         <textarea class="addr-input" id="addrInput" placeholder="Calle, número, referencias..." oninput="address=this.value; renderDrawerFootOnly();">${address}</textarea>
 
+      ` : deliveryType==='pickup' ? `
+        <div class="cp-label" style="margin-top:18px;">Dirección de pickup</div>
+        <div style="background:#fff; border:1.5px solid var(--line); border-radius:9px; padding:14px; font-size:13.5px; line-height:1.5; font-weight:700;">
+          Av Paseo de Zakia Pte 3600, "Allegro 1" en Zakia
+        </div>
       ` : ''}
     `;
     const canConfirm = deliveryType==='pickup' || (deliveryType==='domicilio' && address.trim().length>4);
@@ -1243,7 +1250,7 @@ function sendToWhatsapp(){
   if(deliveryType === 'domicilio'){
     msg += `Entrega: a domicilio%0ADirección: ${encodeURIComponent(address)}%0AColonia: ${encodeURIComponent(colonia)}`;
   } else {
-    msg += `Entrega: pickup en tienda`;
+    msg += `Entrega: pickup en tienda%0ADirección de pickup: ${encodeURIComponent('Av Paseo de Zakia Pte 3600, "Allegro 1" en Zakia')}`;
   }
   window.open(`https://wa.me/${numero}?text=${msg}`, '_blank');
 }
