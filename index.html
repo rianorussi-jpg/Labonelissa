@@ -406,13 +406,6 @@
   .lightbox.open{display:flex;}
   .lightbox img{max-width:100%; max-height:90vh; border-radius:12px;}
 
-  footer{
-    text-align:center;
-    font-size:12px;
-    color:var(--gray);
-    padding:26px 5vw 110px;
-  }
-
   /* ===== PROMOS ===== */
   .promo-section{
     max-width:820px;
@@ -551,6 +544,42 @@
     text-decoration:line-through;
   }
 
+
+  footer{
+    text-align:center;
+    padding:34px 5vw 120px;
+    border-top:1px solid var(--line);
+    margin-top:28px;
+  }
+  .footer-brand{
+    font-family:'Archivo Black',sans-serif;
+    color:var(--red);
+    font-size:20px;
+    letter-spacing:.02em;
+  }
+  .footer-text{
+    margin-top:6px;
+    font-size:12.5px;
+    color:var(--gray);
+    line-height:1.5;
+  }
+  .footer-contact{margin-top:14px;}
+  .footer-wa{
+    background:var(--wa);
+    color:#04361D;
+    border:none;
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:800;
+    font-size:12.5px;
+    cursor:pointer;
+  }
+  .footer-copy{
+    margin-top:16px;
+    font-size:11px;
+    color:#9B8E84;
+  }
+
 </style>
 </head>
 <body>
@@ -571,7 +600,7 @@
       <div class="promo-badge"></div>
       <div class="promo-eyebrow">🔥 Promo de miércoles</div>
       <div class="promo-title">500g de Boneless + Papitas $259</div>
-      <div class="promo-text">Miércoles de antojo grande: más boneless, más papitas y mejor precio. Válida solo los miércoles.</div>
+      <div class="promo-text">Miércoles de antojo grande: 500g de boneless con papitas a precio especial. Elige 1 salsa y agrega una segunda si quieres. Válida solo los miércoles.</div>
       <button class="promo-btn" onclick="openPromoConfigurator('promo-boneless-500')">Agregar promo</button>
     </div>
 
@@ -611,7 +640,14 @@
 
 <main id="menuMain"></main>
 
-<footer>La Bonelissa · Preview — el número de WhatsApp aún no está conectado y las imágenes son de ejemplo (/images/1.png, /images/2.png...).</footer>
+<footer>
+  <div class="footer-brand">LA BONELISSA</div>
+  <div class="footer-text">Boneless · Alitas · Papitas · Pickup y servicio a domicilio</div>
+  <div class="footer-contact">
+    <button class="footer-wa" onclick="contactWhatsapp()">Pedir o contactar por WhatsApp</button>
+  </div>
+  <div class="footer-copy">© 2026 La Bonelissa. Todos los derechos reservados.</div>
+</footer>
 
 <!-- Barra inferior -->
 <div class="cart-bar" id="cartBar" onclick="openDrawer('cart')">
@@ -651,6 +687,7 @@ function imgFallback(el){
 
 /* ===== DATA ===== */
 const salsas = [
+  { nombre:'Naturales', color:'#D7C7A8' },
   { nombre:'Lemon Pepper', color:'#D8C56A' },
   { nombre:'BBQ', color:'#7A431F' },
   { nombre:'Bufalo Hot', color:'#C81620' },
@@ -739,7 +776,7 @@ function priceHTML(p){
   if(p.precioAntes){
     return `<div class="price-stack"><span class="old-price">$${p.precioAntes}</span><span class="tag">$${p.precio}</span></div>`;
   }
-  return `${priceHTML(p)}`;
+  return `<div class="tag">$${p.precio}</div>`;
 }
 
 function itemHTML(p){
@@ -769,7 +806,7 @@ function itemHTML(p){
         </div>
       </div>
       <div class="multi-panel ${panelOpen ? 'open':''}">
-        <div class="cp-label">${maxSalsas > 1 ? `Escoge de ${minSalsas} a ${maxSalsas} salsas` : 'Escoge 1 salsa'}</div>
+        <div class="cp-label">${maxSalsas > 1 ? `Escoge 1 salsa (puedes agregar hasta ${maxSalsas} si quieres)` : 'Escoge 1 salsa'}</div>
         <div class="chip-row">
           ${salsas.map(s => `
             <div class="chip ${selected.includes(s.nombre)?'selected':''}" onclick="toggleMultiSalsa('${p.id}','${s.nombre}',${maxSalsas})">
@@ -777,7 +814,7 @@ function itemHTML(p){
             </div>
           `).join('')}
         </div>
-        <div class="multi-count">${selected.length} de ${maxSalsas} seleccionadas</div>
+        ${maxSalsas > 1 ? `<div class="multi-count">Tienes ${selected.length} salsa${selected.length===1?'':'s'} seleccionada${selected.length===1?'':'s'}. Las adicionales son opcionales.</div>` : ''}
 
         ${p.requiereModo ? `
           <div class="cp-label">¿Bañados o aparte?</div>
@@ -933,7 +970,7 @@ const promoDefs = {
     img:'/images/2.png',
     soloMiercoles:true,
     minSalsas:1,
-    maxSalsas:1,
+    maxSalsas:2,
     requiereModo:true
   },
   'promo-alitas-1kg': {
@@ -976,10 +1013,12 @@ function renderPromoConfigurator(){
   const maxSalsas = promo.maxSalsas || 1;
 
   document.getElementById('promoSauceLabel').textContent =
-    maxSalsas > 1 ? `Escoge de ${minSalsas} a ${maxSalsas} salsas` : 'Escoge 1 salsa';
+    maxSalsas > 1 ? `Escoge 1 salsa (puedes agregar hasta ${maxSalsas} si quieres)` : 'Escoge 1 salsa';
 
   document.getElementById('promoSauceCount').textContent =
-    maxSalsas > 1 ? `${selected.length} de ${maxSalsas} seleccionadas` : '';
+    maxSalsas > 1
+      ? `Tienes ${selected.length} salsa${selected.length===1?'':'s'} seleccionada${selected.length===1?'':'s'}. Las adicionales son opcionales.`
+      : '';
 
   document.getElementById('promoSauces').innerHTML = salsas.map(s => `
     <div class="chip ${selected.includes(s.nombre)?'selected':''}" onclick="togglePromoSalsa('${s.nombre}')">
@@ -1176,7 +1215,7 @@ function sendToWhatsapp(){
   const numero = '5215542641224'; // reemplazar con el número real de WhatsApp del negocio
   let msg = 'Hola! Quiero pedir:%0A';
   entries.forEach(e=>{
-    const extra = e.salsa ? ` · ${e.salsa} · ${e.modo}` : '';
+    const extra = e.salsa ? ` · ${e.salsa}${e.modo ? ` · ${e.modo}` : ''}` : '';
     msg += `- ${e.qty}x ${e.nombre}${extra} ($${e.precio} c/u)%0A`;
   });
   msg += `Total: $${cartTotal()}%0A%0A`;
