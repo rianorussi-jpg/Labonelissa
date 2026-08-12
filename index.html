@@ -398,71 +398,7 @@
     padding:0 0 14px;
   }
 
-  
-function showOrderConfirmedPage(){
-  closeDrawer();
-
-  const topFixed = document.querySelector('.top-fixed');
-  const promoSection = document.querySelector('.promo-section');
-  const main = document.getElementById('menuMain');
-  const footer = document.querySelector('footer');
-  const cartBar = document.getElementById('cartBar');
-
-  if(topFixed) topFixed.style.display = 'none';
-  if(promoSection) promoSection.style.display = 'none';
-  if(footer) footer.style.display = 'none';
-  if(cartBar) cartBar.classList.remove('show');
-
-  document.body.style.paddingBottom = '0';
-
-  main.innerHTML = `
-    <div style="
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px 20px;
-    ">
-      <div style="
-        width:min(100%,520px);
-        background:#fff;
-        border:1px solid var(--line);
-        border-radius:20px;
-        padding:34px 24px;
-        text-align:center;
-        box-shadow:0 14px 40px rgba(27,20,16,.08);
-      ">
-        <div style="
-          width:74px;
-          height:74px;
-          border-radius:50%;
-          background:var(--wa);
-          color:#04361D;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-size:36px;
-          font-weight:900;
-          margin:0 auto 18px;
-        ">✓</div>
-
-        <div class="display" style="font-size:26px; color:var(--red); line-height:1.1;">
-          Pedido confirmado
-        </div>
-
-        <p style="margin-top:12px; color:var(--gray); font-size:14px; line-height:1.6;">
-          Tu pedido fue enviado a WhatsApp para terminar de confirmarlo con La Bonelissa.
-        </p>
-
-        <button class="primary-btn" style="margin-top:22px;" onclick="window.location.reload()">
-          Hacer otro pedido
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-/* ===== LIGHTBOX ===== */
+  /* ===== LIGHTBOX ===== */
   .lightbox{
     position:fixed; inset:0; z-index:90;
     background:rgba(0,0,0,0.85);
@@ -789,22 +725,19 @@ const productos = [
 
 let openItem = null;
 let draft = {};
-const CART_STORAGE_KEY = 'bonelissa_cart';
-const ORDER_CONFIRMED_KEY = 'bonelissa_order_confirmed';
+const CART_STORAGE_KEY = 'labonelissa_cart_v1';
+let cart = {}; // key -> {id, nombre, precio, salsa, modo, qty, img}
 
-let cart = {};
-try{
-  const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-  if(savedCart) cart = JSON.parse(savedCart) || {};
-}catch(err){
-  console.warn('No se pudo restaurar el carrito:', err);
-  cart = {};
+function loadCart(){
+  try{
+    const saved = localStorage.getItem(CART_STORAGE_KEY);
+    cart = saved ? JSON.parse(saved) : {};
+    if(!cart || typeof cart !== 'object' || Array.isArray(cart)) cart = {};
+  }catch(err){
+    console.warn('No se pudo cargar el carrito:', err);
+    cart = {};
+  }
 }
-
-let checkoutStep = 'cart'; // cart | delivery | address
-let deliveryType = null; // 'domicilio' | 'pickup'
-let address = '';
-let colonia = 'Zakia';
 
 function saveCart(){
   try{
@@ -816,31 +749,12 @@ function saveCart(){
 
 function clearCart(){
   cart = {};
-  try{
-    localStorage.removeItem(CART_STORAGE_KEY);
-  }catch(err){
-    console.warn('No se pudo borrar el carrito guardado:', err);
-  }
-  renderCartBar();
+  try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(err){}
 }
-
-function markOrderConfirmed(){
-  try{
-    localStorage.setItem(ORDER_CONFIRMED_KEY, '1');
-  }catch(err){
-    console.warn('No se pudo guardar el estado del pedido:', err);
-  }
-}
-
-function consumeOrderConfirmed(){
-  try{
-    const confirmed = localStorage.getItem(ORDER_CONFIRMED_KEY) === '1';
-    if(confirmed) localStorage.removeItem(ORDER_CONFIRMED_KEY);
-    return confirmed;
-  }catch(err){
-    return false;
-  }
-}
+let checkoutStep = 'cart'; // cart | delivery | address
+let deliveryType = null; // 'domicilio' | 'pickup'
+let address = '';
+let colonia = 'Zakia';
 
 /* ===== CATEGORY NAV (atajos + scrollspy) ===== */
 const catNav = document.getElementById('catNav');
@@ -1068,7 +982,6 @@ function confirmMultiAdd(id){
 
   draft[id] = { salsas:[], modo:'Bañados' };
   openItem = null;
-  saveCart();
   renderMenu();
   renderCartBar();
 }
@@ -1092,7 +1005,6 @@ function confirmAdd(id){
   else cart[key] = { id, nombre:p.nombre, precio:p.precio, salsa:d.salsa, modo:d.modo, qty:1, img:p.img };
   draft[id] = { salsa:null, modo:'Bañados' };
   openItem = null;
-  saveCart();
   renderMenu();
   renderCartBar();
 }
@@ -1221,7 +1133,6 @@ function confirmPromoAdd(){
   }
 
   closePromoConfigurator();
-  saveCart();
   renderMenu();
   renderCartBar();
 }
@@ -1234,7 +1145,6 @@ function quickAdd(id){
   const p = productos.find(x=>x.id===id);
   if(cart[id]) cart[id].qty++;
   else cart[id] = { id, nombre:p.nombre, precio:p.precio, salsa:null, modo:null, qty:1, img:p.img };
-  saveCart();
   renderMenu();
   renderCartBar();
 }
@@ -1242,7 +1152,6 @@ function changeQty(key, delta){
   if(!cart[key]) return;
   cart[key].qty += delta;
   if(cart[key].qty <= 0) delete cart[key];
-  saveCart();
   renderMenu();
   renderCartBar();
   renderDrawer();
@@ -1254,6 +1163,7 @@ function cartTotal(){ return cartEntries().reduce((s,e)=>s+e.qty*e.precio,0); }
 function cartQty(){ return cartEntries().reduce((s,e)=>s+e.qty,0); }
 
 function renderCartBar(){
+  saveCart();
   const entries = cartEntries();
   const bar = document.getElementById('cartBar');
   if(entries.length === 0){ bar.classList.remove('show'); closeDrawer(); return; }
@@ -1356,28 +1266,27 @@ function setDelivery(type){
 
 function sendToWhatsapp(){
   const entries = cartEntries();
-  if(entries.length === 0) return;
-
-  const numero = '5215542641224';
+  const numero = '5215542641224'; // reemplazar con el número real de WhatsApp del negocio
   let msg = 'Hola! Quiero pedir:%0A';
   entries.forEach(e=>{
     const extra = e.salsa ? ` · ${e.salsa}${e.modo ? ` · ${e.modo}` : ''}` : '';
     msg += `- ${e.qty}x ${e.nombre}${extra} ($${e.precio} c/u)%0A`;
   });
   msg += `Total: $${cartTotal()}%0A%0A`;
-
   if(deliveryType === 'domicilio'){
     msg += `Entrega: a domicilio%0ADirección: ${encodeURIComponent(address)}%0AColonia: ${encodeURIComponent(colonia)}`;
   } else {
     msg += `Entrega: pickup en tienda%0ADirección de pickup: ${encodeURIComponent('Av Paseo de Zakia Pte 3600, "Allegro 1" en Zakia')}`;
   }
-
-  // Marcamos el pedido como enviado y vaciamos el carrito ANTES de abrir WhatsApp.
-  markOrderConfirmed();
-  clearCart();
-
   const whatsappUrl = `https://wa.me/${numero}?text=${msg}`;
-  window.location.href = whatsappUrl;
+
+  // El pedido ya fue confirmado: vaciamos el carrito guardado para el siguiente pedido.
+  clearCart();
+  renderMenu();
+  renderCartBar();
+  closeDrawer();
+
+  window.open(whatsappUrl, '_blank');
 }
 
 /* ===== LIGHTBOX ===== */
@@ -1389,12 +1298,9 @@ function closeLightbox(){
   document.getElementById('lightbox').classList.remove('open');
 }
 
-if(consumeOrderConfirmed()){
-  showOrderConfirmedPage();
-}else{
-  renderMenu();
-  renderCartBar();
-}
+loadCart();
+renderMenu();
+renderCartBar();
 </script>
 
 </body>
